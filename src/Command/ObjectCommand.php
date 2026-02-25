@@ -33,6 +33,19 @@ class ObjectCommand implements CommandInterface
             $this->value = '';
         }
 
+        // Brother P-touch Template mode expects a single-byte code page (e.g. Windows-1252),
+        // not UTF-8. Convert UTF-8 input to Windows-1252 so umlauts render correctly.
+        if (function_exists('mb_check_encoding') && mb_check_encoding($this->value, 'UTF-8')) {
+            if (function_exists('iconv')) {
+                $converted = iconv('UTF-8', 'Windows-1252//TRANSLIT', $this->value);
+                if ($converted !== false) {
+                    $this->value = $converted;
+                }
+            } elseif (function_exists('mb_convert_encoding')) {
+                $this->value = mb_convert_encoding($this->value, 'Windows-1252', 'UTF-8');
+            }
+        }
+
         $size = strlen($this->value);
         $n1 = intval($size % 256);
         $n2 = intval($size / 256);

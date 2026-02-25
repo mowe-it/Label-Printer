@@ -43,6 +43,10 @@ class Template extends Mode
     protected function initialize()
     {
         $this->sendCommand(chr(94) . chr(73) . chr(73));
+
+        // Set character code set to Windows-1252 (Western Europe) for umlauts.
+        // ESC i X m 2 01h 00h 02h
+        $this->sendCommand(chr(27) . 'iXm2' . chr(1) . chr(0) . chr(2));
     }
 
     /**
