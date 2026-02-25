@@ -1,5 +1,5 @@
 {
-    "name": "ramytalal/label-printer",
+    "name": "mowe-it/label-printer",
     "description": "An implementation of the Brother label printer API.",
     "keywords": [
         "brother",
